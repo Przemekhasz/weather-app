@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::redirect('/', '/login');
+
 Auth::routes();
 
-Route::get('/api', [ApiController::class, 'index']);
+// Route::get('/api', [ApiController::class, 'index'])->name('index');
+// Route::post('/api', [ApiController::class, 'create'])->name('create');
+// Route::post('/api', [ApiController::class, 'store'])->name('store');
+// Route::get('/api/{cities}', [ApiController::class, 'edit'])->name('edit');
+// Route::put('/api/{cities}', [ApiController::class, 'update'])->name('update');
+// Route::delete('/api/{cities}', [ApiController::class, 'destroy'])->name('destroy');
+Route::resource('/api', ApiController::class);

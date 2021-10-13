@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cities;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class ApiController extends Controller
 {
@@ -26,28 +31,39 @@ class ApiController extends Controller
      */
     public function index()
     {
+        $user = User::all();
+        $city = Cities::all();
+
+        $find_id = User::findOrFail(Auth::user()->id);
+        // dd($find_id->id);
+        $query = DB::table("users")
+            ->join('cities', 'users.id', '=', 'cities.user_id')
+            ->select('cities.*')
+            ->get();
+
         $forecast = [];
 
-        $minutes = 30;
+        $minutes = 0;
         $forecast = Cache::remember('forecast', $minutes, function () {
+            $search = request()->input('search');
             $api_key = config('api.api_key');
-            $url = "api.openweathermap.org/data/2.5/weather?id=760727&appid=${api_key}";
+            $url = "api.openweathermap.org/data/2.5/weather?q=${search}&appid=${api_key}&lang=pl";
             $client = new \GuzzleHttp\Client();
             $res = $client->get($url);
 
-            if ($res->getStatusCode() == 200) {
+            if($res->getStatusCode() == 200) {
                 $j = $res->getBody();
                 $obj = json_decode($j);
                 $forecast = $obj;
             }
             return $forecast;
         });
-        $file = asset('storage/city.list.json');
-        //760727 - Radymno
-        //3094802 - Kraków
 
-        $colle = array($file);
         $name = $forecast->name;
+        $icon = $forecast->weather[0]->icon;
+        $description = $forecast->weather[0]->description;
+
+        $forecast_icon = "http://openweathermap.org/img/wn/${icon}.png";
 
         // Read and convert api data
         $temp = round($forecast->main->temp - 273.15);
@@ -55,9 +71,9 @@ class ApiController extends Controller
         $preasure = $forecast->main->pressure;
         $humidity = $forecast->main->humidity;
         $wind = round($forecast->wind->speed * 3.600000);
-        // convertion unix to normal time + 7200s (2h)
-        $sunrise = date('H:i:s', round($forecast->sys->sunrise) + 7200);
-        $sunset = date('H:i:s',$forecast->sys->sunset + 7200);
+        // convert unix to normal time + timezone
+        $sunrise = date('H:i:s', $forecast->sys->sunrise + $forecast->timezone);
+        $sunset = date('H:i:s', $forecast->sys->sunset + $forecast->timezone);
 
         $data = [
             'name' => $name,
@@ -68,6 +84,9 @@ class ApiController extends Controller
             'wind' => $wind,
             'sunrise' => $sunrise,
             'sunset' => $sunset,
+            'forecast_icon' => $forecast_icon,
+            'description' => $description,
+            'query' => $query
         ];
 
         return view('home', $data);
@@ -80,7 +99,7 @@ class ApiController extends Controller
      */
     public function create()
     {
-        //
+        $city = Cities::all();
     }
 
     /**
@@ -91,7 +110,14 @@ class ApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $find_id = User::findOrFail(Auth::user()->id);
+
+        $create = Cities::create([
+            'city_name' => $request->input('search'),
+            'user_id' => $find_id['id']
+        ]);
+
+        return redirect('/api?search='.$request->input('search'))->with('find_id', $find_id);
     }
 
     /**
@@ -134,8 +160,10 @@ class ApiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cities $city)
     {
-        //
+        $city->delete();
+        dd($city);
+        return redirect('/api');
     }
 }
