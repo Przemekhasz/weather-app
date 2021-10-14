@@ -35,18 +35,16 @@ class ApiController extends Controller
         $city = Cities::all();
 
         $find_id = User::findOrFail(Auth::user()->id);
-        // dd($find_id->id);
-        $query = DB::table("users")
-            ->join('cities', 'users.id', '=', 'cities.user_id')
-            ->select('cities.*')
-            ->get();
+
+        $query = DB::table("users")->join('cities', 'users.id', '=', 'cities.user_id')->where('users.id', '=', $find_id['id'])->select('cities.*')->get();
 
         $forecast = [];
 
         $minutes = 0;
         $forecast = Cache::remember('forecast', $minutes, function () {
-            $search = request()->input('search');
             $api_key = config('api.api_key');
+            $search = request()->input('search');
+
             $url = "api.openweathermap.org/data/2.5/weather?q=${search}&appid=${api_key}&lang=pl";
             $client = new \GuzzleHttp\Client();
             $res = $client->get($url);
@@ -117,53 +115,6 @@ class ApiController extends Controller
             'user_id' => $find_id['id']
         ]);
 
-        return redirect('/api?search='.$request->input('search'))->with('find_id', $find_id);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cities $city)
-    {
-        $city->delete();
-        dd($city);
-        return redirect('/api');
+        return redirect('/api?search='.$request->input('search'))->with('find_id', $find_id['id']);
     }
 }
