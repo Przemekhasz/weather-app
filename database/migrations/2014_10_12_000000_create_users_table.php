@@ -13,7 +13,6 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -29,15 +28,6 @@ class CreateUsersTable extends Migration
             $table->string('city_name');
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
-        });
-
-        Schema::create('data', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('temp');
-            $table->integer('humidity');
-            $table->unsignedInteger('city_id')->nullable();
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->timestamps();
         });
     }

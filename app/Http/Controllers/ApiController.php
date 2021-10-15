@@ -122,7 +122,6 @@ class ApiController extends Controller
     public function create()
     {
         $city = Cities::all();
-        $data = Data::all();
     }
 
     /**
