@@ -5,7 +5,7 @@
 	<div class="d-flex justify-content-center h-100">
         @section('content')
         @extends('layouts.app')
-		<div class="card">
+		<div class="card1">
 			<div class="card-header">
 				<h3>Login</h3>
 			</div>

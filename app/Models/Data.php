@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cities extends Model
+class Data extends Model
 {
     use HasFactory;
 
-    protected $table = 'cities';
+    protected $table = 'data';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'city_name',
-        'user_id',
+        'temp',
+        'humidity',
         'city_id'
     ];
 }

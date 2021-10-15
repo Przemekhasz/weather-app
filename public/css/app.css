@@ -3683,7 +3683,7 @@ input[type="button"].btn-block {
     color: #495057;
     text-align: center;
     white-space: nowrap;
-    background-color: #e9ecef;
+    background-color: #173a5eaf;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
 }
@@ -4672,15 +4672,28 @@ input[type="button"].btn-block {
     color: #fff;
 }
 
+.card1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: rgb(42, 65, 87);
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    margin: 5px;
+}
+
 .card {
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    background-color: rgba(255, 255, 255, 0.575);
+    background-color: rgb(255, 255, 255);
     background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    border: 2px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
     margin: 5px;
 }
@@ -10513,10 +10526,10 @@ body {
 .weather-card {
     margin: 60px auto;
     height: 740px;
-    /* width: 750px; */
-    background-color: #fff;
-    box-shadow: 0 1px 38px rgba(0, 0, 0, 0.15), 0 5px 12px rgba(0, 0, 0, 0.25);
-    overflow-x: hidden;
+    width: 880px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 1px 38px rgba(0, 0, 0, 0.685), 0 5px 12px rgba(0, 0, 0, 0.25);
+    overflow-x: auto;
 }
 
 .weather-cardd {
@@ -10756,6 +10769,7 @@ body {
     );
 }
 
-.chart {
-    margin: 0px 0px 15px 15px;
+.ct-bar,
+.ct-chart {
+    stroke: blue;
 }

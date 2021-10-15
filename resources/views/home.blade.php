@@ -19,7 +19,7 @@
                                 </div>
                             </a>
                         @endforeach
-
+                        <div class="ct-chart ct-perfect-fourth"></div>
                     </div>
 
                 </div>
@@ -43,7 +43,11 @@
                                 </div>
                             </form>
                             <h1 class="location">
-                                {{ $name }}
+                                {{-- {{ $search }} --}}
+                                <span class="time">
+                                    {{-- {{ $time[0] }} --}}
+                                </span>
+
                             </h1>
                             <h5 class="heading">{{ $description }}
                                 <img src="{{ $forecast_icon }}" class="weather-image">
@@ -51,30 +55,24 @@
                             <hr class="info_hr">
                             <p class="temp">
                                 <span class="info">Temperatura:</span><br>
-                                <span class="temp-value">{{ $temp }}</span>
+                                <span class="temp-value temperature">
+
+                                </span>
                                 <span class="deg">o</span>
                                     <a href="javascript:;"><span class="temp-type">C</span></a>
                                     <br>
                                     <span class="info">Odczuwalna: {{ $feels }}*C :</span>
-                                    <span class="info">Wschód: {{ $sunrise }}</span>
+                                    {{-- <span class="info">Wschód: {{ $sunrise }}</span> --}}
                                 </p>
                                 <hr class="info_hr">
                                 <p class="temp">
                                     <span class="info">Wilgotność:</span><br>
-                                    <span class="temp-value">{{ $humidity }}</span>
+                                    <span class="temp-value humidity">{{ $hourly_humidity[0]->humidity }}</span>
                                     <a href="javascript:;"><span class="temp-type">%</span></a>
                                 </p>
-                                <div class="progress-bar-sub">
-                                    <div class="progress-name"><strong style="color: white;">Temperatura</strong></div>
-                                    <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="60" style="max-width: 60%; width: {{ $temp }}%;"><span>{{ $temp }}*C</span></div>
-                                </div>
+
 
                             </div>
-                            <div class="progress-bar-sub">
-                                <div class="progress-name"><strong style="color: white;">Wilgotność</strong></div>
-                                <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="60" style="width: {{ $humidity }}%;"><span>{{ $humidity }}%</span></div>
                         </div>
                     </div>
                 </div>
@@ -82,5 +80,93 @@
         </div>
     </div>
 </div>
+<script>
+    let temp = document.querySelector(".temperature").innerText;
+    let humidity = document.querySelector(".humidity").innerText;
+    let time = document.querySelector(".time").innerText;
 
+    console.log(temp);
+    console.log(humidity);
+    console.log(time);
+
+    let data = {
+    labels: [
+        <?php echo date('H', $time[0]->dt + 7200) ?>,
+        <?php echo date('H', $time[1]->dt + 7200) ?>,
+        <?php echo date('H', $time[2]->dt + 7200) ?>,
+        <?php echo date('H', $time[3]->dt + 7200) ?>,
+        <?php echo date('H', $time[4]->dt + 7200) ?>,
+        <?php echo date('H', $time[5]->dt + 7200) ?>,
+        <?php echo date('H', $time[6]->dt + 7200) ?>,
+        <?php echo date('H', $time[7]->dt + 7200) ?>,
+        <?php echo date('H', $time[8]->dt + 7200) ?>,
+        <?php echo date('H', $time[9]->dt + 7200) ?>,
+        <?php echo date('H', $time[10]->dt + 7200) ?>,
+        <?php echo date('H', $time[11]->dt + 7200) ?>,
+        <?php echo date('H', $time[12]->dt + 7200) ?>,
+        <?php echo date('H', $time[13]->dt + 7200) ?>,
+        <?php echo date('H', $time[14]->dt + 7200) ?>,
+        <?php echo date('H', $time[15]->dt + 7200) ?>,
+        <?php echo date('H', $time[16]->dt + 7200) ?>,
+        <?php echo date('H', $time[17]->dt + 7200) ?>,
+        <?php echo date('H', $time[18]->dt + 7200) ?>,
+        <?php echo date('H', $time[19]->dt + 7200) ?>,
+        <?php echo date('H', $time[20]->dt + 7200) ?>,
+        <?php echo date('H', $time[21]->dt + 7200) ?>,
+        <?php echo date('H', $time[22]->dt + 7200) ?>,
+        <?php echo date('H', $time[23]->dt + 7200) ?>,
+    ],
+        series: [
+        [ <?php echo $hourly_humidity[0]->humidity ?> ],
+        [ <?php echo $hourly_humidity[1]->humidity ?> ],
+        [ <?php echo $hourly_humidity[2]->humidity ?> ],
+        [ <?php echo $hourly_humidity[3]->humidity ?> ],
+        [ <?php echo $hourly_humidity[4]->humidity ?> ],
+        [ <?php echo $hourly_humidity[5]->humidity ?> ],
+        [ <?php echo $hourly_humidity[6]->humidity ?> ],
+        [ <?php echo $hourly_humidity[7]->humidity ?> ],
+        [ <?php echo $hourly_humidity[8]->humidity ?> ],
+        [ <?php echo $hourly_humidity[9]->humidity ?> ],
+        [ <?php echo $hourly_humidity[10]->humidity ?> ],
+        [ <?php echo $hourly_humidity[11]->humidity ?> ],
+        [ <?php echo $hourly_humidity[12]->humidity ?> ],
+        [ <?php echo $hourly_humidity[13]->humidity ?> ],
+        [ <?php echo $hourly_humidity[14]->humidity ?> ],
+        [ <?php echo $hourly_humidity[15]->humidity ?> ],
+        [ <?php echo $hourly_humidity[16]->humidity ?> ],
+        [ <?php echo $hourly_humidity[17]->humidity ?> ],
+        [ <?php echo $hourly_humidity[18]->humidity ?> ],
+        [ <?php echo $hourly_humidity[19]->humidity ?> ],
+        [ <?php echo $hourly_humidity[20]->humidity ?> ],
+        [ <?php echo $hourly_humidity[21]->humidity ?> ],
+        [ <?php echo $hourly_humidity[22]->humidity ?> ],
+        [ <?php echo $hourly_humidity[23]->humidity ?> ],
+    ]
+    };
+
+    let options = {
+    seriesBarDistance: 34
+    };
+
+    let responsiveOptions = [
+    ['screen and (min-width: 641px) and (max-width: 1024px)', {
+        seriesBarDistance: 10,
+        axisX: {
+        labelInterpolationFnc: function (value) {
+            return value;
+        }
+        }
+    }],
+    ['screen and (max-width: 640px)', {
+        seriesBarDistance: 5,
+        axisX: {
+        labelInterpolationFnc: function (value) {
+            return value[0];
+        }
+        }
+    }]
+    ];
+
+    new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
+</script>
 @endsection
