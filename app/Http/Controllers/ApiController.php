@@ -47,9 +47,9 @@ class ApiController extends Controller
         $minutes = 0;
         $forecast = Cache::remember('forecast', $minutes, function () {
             $search = request()->input('search');
-            $test = "api.openweathermap.org/data/2.5/weather?q=${search}&appid=".$this->api_key."&lang=pl";
+            $url_to_weather = "api.openweathermap.org/data/2.5/weather?q=${search}&appid=".$this->api_key."&lang=pl";
             $client = new \GuzzleHttp\Client();
-            $res = $client->get($test);
+            $res = $client->get($url_to_weather);
 
             if($res->getStatusCode() == 200) {
                 $j = $res->getBody();
@@ -60,10 +60,10 @@ class ApiController extends Controller
             $lat = $forecast->coord->lat;
 
 
-            $url = "api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily&appid=".$this->api_key."&lang=pl";
+            $url_to_weather = "api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=daily&appid=".$this->api_key."&lang=pl";
 
             $client = new \GuzzleHttp\Client();
-            $res = $client->get($url);
+            $res = $client->get($url_to_weather);
 
             if($res->getStatusCode() == 200) {
                 $j = $res->getBody();
@@ -72,7 +72,6 @@ class ApiController extends Controller
             }
             return [$forecast, $search];
         });
-        //dd($forecast);
 
         $name = $forecast[1];
         $icon = $forecast[0]->current->weather[0]->icon;

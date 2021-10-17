@@ -44,9 +44,6 @@
                             </form>
                             <h1 class="location">
                                 {{-- {{ $search }} --}}
-                                <span class="time">
-                                    {{-- {{ $time[0] }} --}}
-                                </span>
 
                             </h1>
                             <h5 class="heading">{{ $description }}
@@ -61,7 +58,7 @@
                                 <span class="deg">o</span>
                                     <a href="javascript:;"><span class="temp-type">C</span></a>
                                     <br>
-                                    <span class="info">Odczuwalna: {{ $feels }}*C :</span>
+                                    <span class="info">Odczuwalna: {{ $feels }}*C</span>
                                     {{-- <span class="info">Wschód: {{ $sunrise }}</span> --}}
                                 </p>
                                 <hr class="info_hr">
@@ -81,14 +78,6 @@
     </div>
 </div>
 <script>
-    let temp = document.querySelector(".temperature").innerText;
-    let humidity = document.querySelector(".humidity").innerText;
-    let time = document.querySelector(".time").innerText;
-
-    console.log(temp);
-    console.log(humidity);
-    console.log(time);
-
     let data = {
     labels: [
         <?php echo date('H', $time[0]->dt + 7200) ?>,
