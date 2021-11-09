@@ -3,32 +3,25 @@
 <div class="container">
     <div class="row align-items-center">
             <div class="col">
-                <div class="weather-card one">
-                    <div class="top">
-                        <div class="wrapper">
-                            <h1>Weather App</h1>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        @foreach ($query as $single)
-                            <a href="?search={{ $single->city_name }}">
-                                <div class="card" style="width: 12rem;">
-                                    <div class="card-body">
-                                    <h5 class="card-title">{{ $single->city_name }}</h5>
-                                    </div>
-                                </div>
-                            </a>
-                        @endforeach
-                        <div class="ct-chart ct-perfect-fourth"></div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col">
                 <div class="weather-cardd rain">
                     <div class="top">
                         <div class="wrapper">
+                            <span class="info">Wybierz miasto:</span><br>
+                            @foreach ($query as $single)
+                                <a href="api?search={{ $single->city_name }}">
+                                        <form id="event" action="/api/{{ $single->id }}" method="POST">
+                                            <label for="name">{{ $single->city_name }}
+                                        @csrf
+                                        @method('delete')
+                                            <a href="/api/{{ $single->id }}">
+                                                X
+                                            </a>
+                                    </form>
+                                </a>
+                             @endforeach
+
+                             {{-- {{ $query->links() }} --}}
+
                             <form method="POST" action="/api?search=Warszawa" enctype="multipart/form-data">
                                 @csrf
                                 <div class="input-group form-group">
@@ -39,11 +32,11 @@
                                             </svg>
                                         </span>
                                     </div>
-                                    <input type="search" class="form-control" name="search">
+                                    <input type="search" class="form-control" name="search" required>
                                 </div>
                             </form>
                             <h1 class="location">
-                                {{-- {{ $search }} --}}
+                                {{ $name }}
 
                             </h1>
                             <h5 class="heading">{{ $description }}
@@ -53,13 +46,14 @@
                             <p class="temp">
                                 <span class="info">Temperatura:</span><br>
                                 <span class="temp-value temperature">
-
+                                    {{ $temp }}
                                 </span>
                                 <span class="deg">o</span>
                                     <a href="javascript:;"><span class="temp-type">C</span></a>
                                     <br>
-                                    <span class="info">Odczuwalna: {{ $feels }}*C</span>
-                                    {{-- <span class="info">Wschód: {{ $sunrise }}</span> --}}
+                                    <span class="info">Odczuwalna: {{ $feels }}*C</span><br />
+                                    <span class="info">Wschód: {{ $sunrise }}</span><br />
+                                    <span class="info">Zachód: {{ $sunset }}</span>
                                 </p>
                                 <hr class="info_hr">
                                 <p class="temp">
@@ -67,7 +61,8 @@
                                     <span class="temp-value humidity">{{ $hourly_humidity[0]->humidity }}</span>
                                     <a href="javascript:;"><span class="temp-type">%</span></a>
                                 </p>
-
+                                <span class="info">Wilgotność w czasie:</span><br>
+                                <div class="ct-chart ct-perfect-fourth"></div>
 
                             </div>
                         </div>
@@ -93,17 +88,6 @@
         <?php echo date('H', $time[10]->dt + 7200) ?>,
         <?php echo date('H', $time[11]->dt + 7200) ?>,
         <?php echo date('H', $time[12]->dt + 7200) ?>,
-        <?php echo date('H', $time[13]->dt + 7200) ?>,
-        <?php echo date('H', $time[14]->dt + 7200) ?>,
-        <?php echo date('H', $time[15]->dt + 7200) ?>,
-        <?php echo date('H', $time[16]->dt + 7200) ?>,
-        <?php echo date('H', $time[17]->dt + 7200) ?>,
-        <?php echo date('H', $time[18]->dt + 7200) ?>,
-        <?php echo date('H', $time[19]->dt + 7200) ?>,
-        <?php echo date('H', $time[20]->dt + 7200) ?>,
-        <?php echo date('H', $time[21]->dt + 7200) ?>,
-        <?php echo date('H', $time[22]->dt + 7200) ?>,
-        <?php echo date('H', $time[23]->dt + 7200) ?>,
     ],
         series: [
         [ <?php echo $hourly_humidity[0]->humidity ?> ],
@@ -119,27 +103,16 @@
         [ <?php echo $hourly_humidity[10]->humidity ?> ],
         [ <?php echo $hourly_humidity[11]->humidity ?> ],
         [ <?php echo $hourly_humidity[12]->humidity ?> ],
-        [ <?php echo $hourly_humidity[13]->humidity ?> ],
-        [ <?php echo $hourly_humidity[14]->humidity ?> ],
-        [ <?php echo $hourly_humidity[15]->humidity ?> ],
-        [ <?php echo $hourly_humidity[16]->humidity ?> ],
-        [ <?php echo $hourly_humidity[17]->humidity ?> ],
-        [ <?php echo $hourly_humidity[18]->humidity ?> ],
-        [ <?php echo $hourly_humidity[19]->humidity ?> ],
-        [ <?php echo $hourly_humidity[20]->humidity ?> ],
-        [ <?php echo $hourly_humidity[21]->humidity ?> ],
-        [ <?php echo $hourly_humidity[22]->humidity ?> ],
-        [ <?php echo $hourly_humidity[23]->humidity ?> ],
     ]
     };
 
     let options = {
-    seriesBarDistance: 34
+    seriesBarDistance: 76
     };
 
     let responsiveOptions = [
     ['screen and (min-width: 641px) and (max-width: 1024px)', {
-        seriesBarDistance: 10,
+        seriesBarDistance: 20,
         axisX: {
         labelInterpolationFnc: function (value) {
             return value;
@@ -147,7 +120,7 @@
         }
     }],
     ['screen and (max-width: 640px)', {
-        seriesBarDistance: 5,
+        seriesBarDistance: 15,
         axisX: {
         labelInterpolationFnc: function (value) {
             return value[0];

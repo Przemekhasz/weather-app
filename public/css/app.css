@@ -10525,20 +10525,18 @@ body {
 
 .weather-card {
     margin: 60px auto;
-    height: 740px;
-    width: 880px;
+    height: 140px;
+    width: 280px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 1px 38px rgba(0, 0, 0, 0.685), 0 5px 12px rgba(0, 0, 0, 0.25);
-    overflow-x: auto;
 }
 
 .weather-cardd {
     margin: 60px auto;
-    height: 740px;
+    height: auto;
     /* width: 350px; */
     background-color: #fff;
     box-shadow: 0 1px 38px rgba(0, 0, 0, 0.15), 0 5px 12px rgba(0, 0, 0, 0.25);
-    overflow-x: hidden;
 }
 
 .weather-cardd .top {
@@ -10553,7 +10551,7 @@ body {
 .weather-cardd.rain .top {
     height: 100%;
     width: 100%;
-    background: url(" https://i.pinimg.com/564x/69/d2/37/69d237ec37df5d5663f36423c64fd6c7.jpg")
+    background: url("https://images.unsplash.com/photo-1558486012-817176f84c6d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=670&q=80")
         no-repeat;
     background-size: cover;
     background-position: center center;
@@ -10767,9 +10765,4 @@ body {
         transparent 75%,
         transparent
     );
-}
-
-.ct-bar,
-.ct-chart {
-    stroke: blue;
 }

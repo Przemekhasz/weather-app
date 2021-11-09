@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Models\Cities;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -21,3 +22,4 @@ Auth::routes();
 Route::get('/api', [ApiController::class, 'index'])->name('index');
 Route::post('/api', [ApiController::class, 'create'])->name('create');
 Route::post('/api', [ApiController::class, 'store'])->name('store');
+Route::get('/api/{city}', [ApiController::class, 'destroy'])->name('destroy');

@@ -11,18 +11,19 @@
     },
     "devDependencies": {
         "axios": "^0.21",
-        "bootstrap": "^4.6.0",
+        "bootstrap": "^4.6.1",
         "jquery": "^3.6",
-        "laravel-mix": "^6.0.34",
+        "laravel-mix": "^6.0.39",
         "lodash": "^4.17.19",
         "popper.js": "^1.16.1",
-        "postcss": "^8.3.9",
+        "postcss": "^8.3.11",
         "resolve-url-loader": "^4.0.0",
-        "sass": "^1.43.2",
+        "sass": "^1.43.4",
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-        "bootstrap-icons": "^1.6.0",
-        "sweetalert2": "^11.1.7"
+        "bootstrap-icons": "^1.7.0",
+        "sweetalert2": "^11.1.10",
+        "swiper": "^7.2.0"
     }
 }
