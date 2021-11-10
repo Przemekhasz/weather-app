@@ -131,11 +131,6 @@ class ApiController extends Controller
 
     public function destroy(Cities $city, Request $request)
     {
-        if ($city->id == 1) {
-            return view('errors.bad_request', [
-                'error' => 'Nie można usunąć tego elementu'
-            ]);
-        }
         $search = $request->input('search');
 
         $city->delete();
