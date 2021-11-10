@@ -11,7 +11,7 @@ git clone https://github.com/Przemekhasz/weather-app.git
 Then cd into the folder with this command-
 
 ```
-cd weatherApp
+cd weather-app
 ```
 
 Then do a composer install
