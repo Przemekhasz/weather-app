@@ -20,6 +20,12 @@ Then do a composer install
 composer install
 ```
 
+Then do a npm update
+
+```
+npm update
+```
+
 Then create a environment file using this command-
 
 ```
