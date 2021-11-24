@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
+use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Illuminate\Http\RedirectResponse;
 
 class ApiController extends Controller
 {
@@ -26,6 +27,11 @@ class ApiController extends Controller
         $this->api_key = config('api.api_key');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $user = User::all();
@@ -112,11 +118,23 @@ class ApiController extends Controller
         return view('home', $data);
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $city = Cities::all();
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\TreeRequest  $request
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $find_id = User::findOrFail(Auth::user()->id);
@@ -129,6 +147,12 @@ class ApiController extends Controller
         return redirect('/api?search='.$request->input('search'))->with('find_id', $find_id['id']);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Cities $city, Request $request)
     {
         $search = $request->input('search');
